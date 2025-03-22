@@ -9,6 +9,7 @@ public class LoginService {
 
     private final String LOGIN_API_URL = "http://localhost:8000/api/login";  
 
+    @SuppressWarnings("deprecation")
     public String login(String email, String password) throws Exception {
 
         RestTemplate restTemplate = new RestTemplate();
