@@ -24,6 +24,7 @@ public class LoginController {
             loginService.login(email, password);
             modelAndView.addObject("page","dashboard" );
         } catch (Exception e) {
+            e.printStackTrace();
             modelAndView.setViewName("login");
             modelAndView.addObject("erreur", e.getMessage());
         }

@@ -41,10 +41,10 @@ public class LoginService {
             return response.getBody();  
         } catch (HttpClientErrorException e) {
              
-            throw new Exception("Erreur lors de la tentative de connexion: " + e.getResponseBodyAsString());
+            throw new Exception(e.getMessage());
         } catch (Exception e) {
-             
-            throw new Exception("Erreur lors de la tentative de connexion.");
+            
+            throw new Exception(e.getMessage());
         }
     }
 }
