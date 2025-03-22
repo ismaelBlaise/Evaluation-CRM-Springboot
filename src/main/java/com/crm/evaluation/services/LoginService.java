@@ -39,6 +39,7 @@ public class LoginService {
             ResponseEntity<String> response = restTemplate.exchange(LOGIN_API_URL, HttpMethod.POST, entity, String.class);
 
             if (response.getStatusCodeValue() != 200) {
+                System.out.println("Helloooo");
                 throw new Exception("Identifiants incorrects.");
             }
 
@@ -48,7 +49,7 @@ public class LoginService {
             return loginResponse;
         } catch (HttpClientErrorException e) {
              
-            throw new Exception(e.getMessage());
+            throw new Exception("Identifiants incorrects");
         } catch (Exception e) {
             
             throw new Exception(e.getMessage());
