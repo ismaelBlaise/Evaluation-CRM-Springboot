@@ -77,6 +77,13 @@
         <h2 class="text-2xl font-semibold text-gray-700 text-center mb-4">Project Status Distribution</h2>
         <canvas id="projectStatusChart"></canvas>
     </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-lg mt-8">
+        <h2 class="text-2xl font-semibold text-gray-700 text-center mb-4">Monthly Revenue Chart</h2>
+        <h3 class="text-2xl font-semibold text-gray-700 text-center mb-4">Last 12 month</h3>
+        
+        <canvas id="monthlyRevenueChart"></canvas>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -160,3 +167,70 @@
     window.onload = fetchProjectStatusData;
 </script>
 
+
+<script>
+    async function fetchMonthlyRevenueData() {
+        try {
+            const url = 'http://localhost:8080/api/payments/chart';  // URL de l'API qui retourne les données mensuelles des revenus
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Erreur lors de la récupération des données');
+            }
+
+            const revenueData = await response.json();
+            
+            displayMonthlyRevenueChart(revenueData);
+        } catch (error) {
+            console.error(error);
+            alert('Une erreur s\'est produite lors du chargement des données des revenus mensuels.');
+        }
+    }
+
+    function displayMonthlyRevenueChart(revenueData) {
+        const monthlyRevenueChart = document.getElementById('monthlyRevenueChart').getContext('2d');
+
+        new Chart(monthlyRevenueChart, {
+            type: 'line',  // Changer le type de graphique à line pour un graphique linéaire
+            data: {
+                labels: Object.keys(revenueData),  // Utiliser les mois comme labels
+                datasets: [{
+                    label: 'Monthly Revenue',
+                    data: Object.values(revenueData),  // Utiliser les valeurs de revenu pour le dataset
+                    fill: false,  // Ne pas remplir sous la courbe
+                    borderColor: 'rgba(34, 197, 94, 1)',  // Couleur de la ligne
+                    tension: 0.1,  // Légère courbure de la ligne
+                    borderWidth: 2  // Épaisseur de la ligne
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return 'Revenue: ' + tooltipItem.raw + ' €';  // Afficher le revenu avec un symbole €
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true  // S'assurer que l'axe Y commence à 0
+                    }
+                }
+            }
+        });
+    }
+
+    window.onload = fetchMonthlyRevenueData;  // Appeler la fonction dès le chargement de la page
+</script>

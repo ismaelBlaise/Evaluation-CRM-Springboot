@@ -103,7 +103,7 @@ public class DashboardService {
 
 
     @SuppressWarnings({ "unchecked", "deprecation" })
-    public Map<String, Object> getMonthlyRevenueChart() throws Exception {
+    public Map<String, Integer> getMonthlyRevenueChart() throws Exception {
          
         String url = apiBaseUrl + "/payments/chart"; 
         
@@ -122,7 +122,7 @@ public class DashboardService {
             }
             
             ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> revenueData = objectMapper.readValue(response.getBody(), Map.class);
+            Map<String, Integer> revenueData = objectMapper.readValue(response.getBody(), Map.class);
             
             return revenueData; 
         } catch (HttpClientErrorException e) {
