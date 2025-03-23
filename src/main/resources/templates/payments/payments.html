@@ -1,6 +1,11 @@
 <div class="max-w-5xl mx-auto p-6 bg-white shadow-lg rounded-lg">
     <h2 class="text-2xl font-semibold mb-4 text-center">Details des Paiements</h2>
-    
+    <div th:if="${erreur}" class="mb-4 p-4 bg-red-200 text-red-600 rounded-md">
+        <p th:text="${erreur}"></p>
+    </div>
+    <div th:if="${succes}" class="mb-4 p-4 bg-green-200 text-green-600 rounded-md">
+        <p th:text="${succes}"></p>
+    </div>
     <div class="overflow-x-auto">
         <table class="w-full border-collapse border border-gray-300">
             <thead class="bg-gray-100">
@@ -19,9 +24,9 @@
                     <td class="border p-2 text-center" th:text="${payment.paymentSource}"></td>
                     <td class="border p-2 text-center" th:text="${#temporals.format(payment.paymentDate, 'dd/MM/yyyy')}"></td>
                     <td class="border p-2 text-center">
-                        <a th:href="@{/payments/edit/{id}(id=${payment.id})}" 
+                        <a th:href="@{'/payments/update-form/'+${payment.id}+'/'+${payment.amount}}" 
                            class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Modifier</a>
-                        <a th:href="@{/payments/delete/{id}(id=${payment.id})}" 
+                        <a th:href="@{'/payments/delete/'+${payment.id}}" 
                            class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce paiement ?')">Supprimer</a>
                     </td>

@@ -34,13 +34,13 @@ public class DashboardService {
         int nbOffers = getEntityCount("offers/nb");
         int nbInvoices = getEntityCount("invoices/nb");
         int nbPayments = getEntityCount("payments/nb");
-        double sumPayments = getEntityCount("payments/sum");
+        // double sumPayments = getEntityCount("payments/sum");
         int nbInvoiceLines = getEntityCount("invoice-lines/nb");
 
         DashboardResponse dashboardResponse = new DashboardResponse(
                 nbClients, nbProjects, nbTasks, nbOffers, nbInvoices, nbPayments, nbInvoiceLines
         );
-        dashboardResponse.setSumPayments(sumPayments);
+        // dashboardResponse.setSumPayments(sumPayments);
         
         return dashboardResponse;
     }
