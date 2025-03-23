@@ -17,7 +17,7 @@ public class InvoiceApiController {
     private DashboardService dashboardService;
 
     @GetMapping("/chart")
-    public Map<String, Integer> getInvoicePaymentSummary() throws Exception {
+    public Map<String, Double> getInvoicePaymentSummary() throws Exception {
         return dashboardService.getInvoicePaymentSummary();
     }
 }

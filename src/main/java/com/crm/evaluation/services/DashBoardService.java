@@ -105,7 +105,7 @@ public class DashboardService {
 
 
     @SuppressWarnings({ "unchecked", "deprecation" })
-    public Map<String, String> getInvoicePaymentSummary() throws Exception {
+    public Map<String, Double> getInvoicePaymentSummary() throws Exception {
         String url = apiBaseUrl + "/invoices/chart"; 
         RestTemplate restTemplate = new RestTemplate();
         
@@ -122,7 +122,8 @@ public class DashboardService {
             }
             
             ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, String> projectStatusMap = objectMapper.readValue(response.getBody(), new TypeReference<Map<String, String>>() {});
+             
+            Map<String, Double> projectStatusMap = objectMapper.readValue(response.getBody(), new TypeReference<Map<String, Double>>() {});
             
             return projectStatusMap; 
         } catch (HttpClientErrorException e) {
@@ -131,6 +132,7 @@ public class DashboardService {
             throw new Exception(e.getMessage());
         }
     }
+
 
 
 

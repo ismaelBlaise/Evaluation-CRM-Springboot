@@ -92,6 +92,7 @@
 
         <div class="bg-white p-6 rounded-xl shadow-lg mt-8">
             <h2 class="text-2xl font-semibold text-gray-800 text-center mb-4">Invoice Payment Distribution</h2>
+            <input type="month" >
             <canvas id="invoicePaymentChart"></canvas>
             <div id="invoicePaymentError" class="text-red-600 text-center mt-4 hidden">
                 <p>Erreur lors du chargement des données des paiements.</p>
@@ -237,7 +238,7 @@
 
     async function fetchInvoicePaymentData() {
         try {
-            const url = 'http://localhost:8000/api/invoices/chart';
+            const url = 'http://localhost:8080/api/invoices/chart';
             
             const response = await fetch(url, {
                 method: 'GET',
