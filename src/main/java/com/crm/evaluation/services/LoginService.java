@@ -6,6 +6,7 @@ import org.springframework.web.client.RestTemplate;
 import com.crm.evaluation.responses.LoginResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,7 +20,8 @@ import java.util.Map;
 @Service
 public class LoginService {
 
-    private final String LOGIN_API_URL = "http://localhost:8000/api/login";   
+    @Value("${api.base.url}")
+    private String apiBaseUrl;   
 
     @SuppressWarnings("deprecation")
     public LoginResponse login(String email, String password) throws Exception {
@@ -36,7 +38,7 @@ public class LoginService {
         RestTemplate restTemplate = new RestTemplate();
 
         try {
-            ResponseEntity<String> response = restTemplate.exchange(LOGIN_API_URL, HttpMethod.POST, entity, String.class);
+            ResponseEntity<String> response = restTemplate.exchange(apiBaseUrl+"/login", HttpMethod.POST, entity, String.class);
 
             if (response.getStatusCodeValue() != 200) {
                 System.out.println("Helloooo");
