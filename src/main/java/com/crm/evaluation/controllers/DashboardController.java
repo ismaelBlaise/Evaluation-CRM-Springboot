@@ -32,6 +32,8 @@ public class DashboardController {
             modelAndView.addObject("nbOffers", dashboardResponse.getNbOffers());
             modelAndView.addObject("nbInvoices", dashboardResponse.getNbInvoices());
             modelAndView.addObject("nbPayments", dashboardResponse.getNbPayments());
+            System.out.println(dashboardResponse.getSumPayments());
+            modelAndView.addObject("sumPayments", dashboardResponse.getSumPayments());
             modelAndView.addObject("nbInvoiceLines", dashboardResponse.getNbInvoiceLines());
         } catch (Exception e) {
             e.printStackTrace();

@@ -11,6 +11,7 @@ public class DashboardResponse {
     private int nbOffers;
     private int nbInvoices;
     private int nbPayments;
+    private double sumPayments;
     private int nbInvoiceLines;
 
     // Constructeur, getters, setters
