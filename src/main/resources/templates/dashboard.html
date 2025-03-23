@@ -164,11 +164,6 @@
         });
     }
 
-    window.onload = fetchProjectStatusData;
-</script>
-
-
-<script>
     async function fetchMonthlyRevenueData() {
         try {
             const url = 'http://localhost:8080/api/payments/chart';  // URL de l'API qui retourne les données mensuelles des revenus
@@ -232,5 +227,8 @@
         });
     }
 
-    window.onload = fetchMonthlyRevenueData;  // Appeler la fonction dès le chargement de la page
+    window.addEventListener('load', function() {
+        fetchProjectStatusData();
+        fetchMonthlyRevenueData();
+    });
 </script>
