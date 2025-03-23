@@ -21,7 +21,7 @@ public class LoginController {
 
     @PostMapping
     public ModelAndView login(@RequestParam String email,@RequestParam String password,HttpSession session){
-        ModelAndView modelAndView=new ModelAndView("template");
+        ModelAndView modelAndView=new ModelAndView("redirect:/dashboard");
 
         try {
             LoginResponse loginResponse=loginService.login(email, password);
@@ -29,8 +29,7 @@ public class LoginController {
             session.setAttribute("token", loginResponse.getToken());
 
             session.setAttribute("user",loginResponse.getUser());
-            modelAndView.addObject("page","dashboard" );
-            modelAndView.addObject("token", loginResponse.getToken());
+            
         } catch (Exception e) {
             e.printStackTrace();
             modelAndView.setViewName("login");
