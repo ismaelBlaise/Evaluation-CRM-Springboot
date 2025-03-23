@@ -1,0 +1,310 @@
+<div class="container mx-auto p-8">
+    <h2 class="text-4xl font-extrabold text-center mb-8 text-indigo-500">Dashboard</h2>
+
+    <div th:if="${erreur}" class="text-red-600 font-bold text-center mb-4">
+        <p th:text="${erreur}"></p>
+    </div>
+
+    <!-- Grid system to align the cards horizontally -->
+    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-7 gap-2">
+
+        <!-- Client Card -->
+        <div class="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center">
+            <h2 class="text-lg font-semibold text-gray-800">Clients</h2>
+            <p class="text-3xl font-bold text-indigo-600 mt-3" th:text="${nbClients}"></p>
+            <a href="/clients" class="text-indigo-600 mt-2 flex items-center hover:text-indigo-800 transition-colors">
+                See all <i class="bi bi-arrow-right ml-1"></i>
+            </a>
+        </div>
+
+        <!-- Project Card -->
+        <div class="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center">
+            <h2 class="text-lg font-semibold text-gray-800">Projects</h2>
+            <p class="text-3xl font-bold text-indigo-600 mt-3" th:text="${nbProjects}"></p>
+            <a href="/projects" class="text-indigo-600 mt-2 flex items-center hover:text-indigo-800 transition-colors">
+                See all <i class="bi bi-arrow-right ml-1"></i>
+            </a>
+        </div>
+
+        <!-- Task Card -->
+        <div class="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center">
+            <h2 class="text-lg font-semibold text-gray-800">Tasks</h2>
+            <p class="text-3xl font-bold text-indigo-600 mt-3" th:text="${nbTasks}"></p>
+            <a href="/tasks" class="text-indigo-600 mt-2 flex items-center hover:text-indigo-800 transition-colors">
+                See all <i class="bi bi-arrow-right ml-1"></i>
+            </a>
+        </div>
+
+        <!-- Offer Card -->
+        <div class="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center">
+            <h2 class="text-lg font-semibold text-gray-800">Offers</h2>
+            <p class="text-3xl font-bold text-indigo-600 mt-3" th:text="${nbOffers}"></p>
+            <a href="/offers" class="text-indigo-600 mt-2 flex items-center hover:text-indigo-800 transition-colors">
+                See all <i class="bi bi-arrow-right ml-1"></i>
+            </a>
+        </div>
+
+        <!-- Invoice Card -->
+        <div class="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center">
+            <h2 class="text-lg font-semibold text-gray-800">Invoices</h2>
+            <p class="text-3xl font-bold text-indigo-600 mt-3" th:text="${nbInvoices}"></p>
+            <a href="/invoices" class="text-indigo-600 mt-2 flex items-center hover:text-indigo-800 transition-colors">
+                See all <i class="bi bi-arrow-right ml-1"></i>
+            </a>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center">
+            <h2 class="text-lg font-semibold text-gray-800">Payments</h2>
+            <p class="text-xl font-bold text-indigo-600 mt-3" th:text="${nbPayments} +'/ $'+ ${sumPayments}"></p>
+            <a href="/payments" class="text-indigo-600 mt-2 flex items-center hover:text-indigo-800 transition-colors">
+                See all <i class="bi bi-arrow-right ml-1"></i>
+            </a>
+        </div>
+        
+
+         
+        <div class="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center">
+            <h2 class="text-lg font-semibold text-gray-800">Invoice Lines</h2>
+            <p class="text-3xl font-bold text-indigo-600 mt-3" th:text="${nbInvoiceLines}"></p>
+            <a href="/invoice-lines" class="text-indigo-600 mt-2 flex items-center hover:text-indigo-800 transition-colors">
+                See all <i class="bi bi-arrow-right ml-1"></i>
+            </a>
+        </div>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-3 gap-2">
+        
+        <div class="bg-white p-6 rounded-xl shadow-lg mt-8">
+            <h2 class="text-2xl font-semibold text-gray-800 text-center mb-4">Project Status Distribution</h2>
+            <canvas id="projectStatusChart"></canvas>
+            <div id="projectStatusError" class="text-red-600 text-center mt-4 hidden">
+                <p>Erreur lors du chargement des données du statut des projets.</p>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-lg mt-8">
+            <h2 class="text-2xl font-semibold text-gray-800 text-center mb-4">Monthly Revenue Chart</h2>
+            <h3 class="text-2xl font-semibold text-gray-700 text-center mb-4">Last 12 months</h3>
+            <canvas id="monthlyRevenueChart"></canvas>
+            <div id="monthlyRevenueError" class="text-red-600 text-center mt-4 hidden">
+                <p>Erreur lors du chargement des données des revenus mensuels.</p>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-lg mt-8">
+            <h2 class="text-2xl font-semibold text-gray-800 text-center mb-4">Invoice Payment Distribution</h2>
+            <input type="month" class="w-full max-w-xs px-4 py-2 text-lg text-gray-700 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 mb-4" />
+
+            <canvas id="invoicePaymentChart"></canvas>
+            <div id="invoicePaymentError" class="text-red-600 text-center mt-4 hidden">
+                <p>Erreur lors du chargement des données des paiements.</p>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    async function fetchProjectStatusData() {
+        try {
+            const url = 'http://localhost:8080/api/projects/chart';   
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Erreur lors de la récupération des données');
+            }
+
+            const projectData = await response.json();
+            displayProjectStatusChart(projectData);
+            document.getElementById('projectStatusError').classList.add('hidden');
+        } catch (error) {
+            console.error(error);
+            document.getElementById('projectStatusError').classList.remove('hidden');
+        }
+    }
+
+    function displayProjectStatusChart(projectData) {
+        const projectStatusChart = document.getElementById('projectStatusChart').getContext('2d');
+
+        new Chart(projectStatusChart, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(projectData),  
+                datasets: [{
+                    label: 'Project Status Count',
+                    data: Object.values(projectData),
+                    backgroundColor: [
+                        'rgba(59, 130, 246, 0.7)',  
+                        'rgba(234, 179, 8, 0.7)',     
+                        'rgba(239, 68, 68, 0.7)',     
+                        'rgba(156, 163, 175, 0.7)',   
+                        'rgba(34, 197, 94, 0.7)'      
+                    ],
+                    borderColor: [
+                        'rgba(59, 130, 246, 1)',
+                        'rgba(234, 179, 8, 1)',
+                        'rgba(239, 68, 68, 1)',
+                        'rgba(156, 163, 175, 1)',
+                        'rgba(34, 197, 94, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw + ' projects';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    async function fetchMonthlyRevenueData() {
+        try {
+            const url = 'http://localhost:8080/api/payments/chart';  
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Erreur lors de la récupération des données');
+            }
+
+            const revenueData = await response.json();
+            displayMonthlyRevenueChart(revenueData);
+            document.getElementById('monthlyRevenueError').classList.add('hidden');
+        } catch (error) {
+            console.error(error);
+            document.getElementById('monthlyRevenueError').classList.remove('hidden');
+        }
+    }
+
+    function displayMonthlyRevenueChart(revenueData) {
+        const monthlyRevenueChart = document.getElementById('monthlyRevenueChart').getContext('2d');
+
+        new Chart(monthlyRevenueChart, {
+            type: 'line',
+            data: {
+                labels: Object.keys(revenueData),  
+                datasets: [{
+                    label: 'Monthly Revenue ($)',
+                    data: Object.values(revenueData),
+                    borderColor: 'rgba(59, 130, 246, 1)',
+                    backgroundColor: 'rgba(59, 130, 246, 0.3)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+
+    async function fetchInvoicePaymentData() {
+        try {
+            const monthInput = document.querySelector('input[type="month"]');
+            const selectedMonth = monthInput.value;
+            let url="http://localhost:8080/api/invoices/chart";
+    
+            const annee = selectedMonth.split('-')[0];   
+            const mois = selectedMonth.split('-')[1];    
+            
+            
+            
+            if (selectedMonth) {
+                url = `http://localhost:8080/api/invoices/chart/${annee}/${mois}`;
+            }
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
+    
+            if (!response.ok) {
+                throw new Error('Erreur lors de la récupération des données');
+            }
+    
+            const paymentData = await response.json();
+            displayInvoicePaymentChart(paymentData);
+            //document.getElementById('invoicePaymentError').classList.add('hidden');
+        } catch (error) {
+            console.error(error);
+            document.getElementById('invoicePaymentError').classList.remove('hidden');
+        }
+    }
+    
+    // Fonction pour afficher le graphique avec les données récupérées
+    function displayInvoicePaymentChart(paymentData) {
+        const invoicePaymentChartElement = document.getElementById('invoicePaymentChart');
+        const ctx = invoicePaymentChartElement.getContext('2d');
+    
+        // Vérifiez si un graphique existe déjà et détruisez-le
+        if (invoicePaymentChartElement.chart) {
+            invoicePaymentChartElement.chart.destroy();
+        }
+    
+        // Créez un nouveau graphique
+        invoicePaymentChartElement.chart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Total Paid ($)', 'Total Unpaid ($)'],
+                datasets: [{
+                    data: [paymentData.total_paid, paymentData.total_unpaid],
+                    backgroundColor: ['rgba(34, 197, 94, 0.7)', 'rgba(239, 68, 68, 0.7)'],
+                    borderColor: ['rgba(34, 197, 94, 1)', 'rgba(239, 68, 68, 1)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' }
+                }
+            }
+        });
+    }
+    
+    
+    fetchInvoicePaymentData();
+    document.querySelector('input[type="month"]').addEventListener('change', fetchInvoicePaymentData);
+    
+    fetchProjectStatusData();
+    fetchMonthlyRevenueData();
+</script>
