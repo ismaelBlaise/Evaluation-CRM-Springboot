@@ -1,5 +1,5 @@
 <div class="max-w-5xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-    <h2 class="text-2xl font-semibold mb-4 text-center">Liste des Paiements</h2>
+    <h2 class="text-2xl font-semibold mb-4 text-center">Details des Paiements</h2>
     
     <div class="overflow-x-auto">
         <table class="w-full border-collapse border border-gray-300">
@@ -13,9 +13,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="payment : ${payments}" class="hover:bg-gray-50">
+                <tr th:each="payment : ${payments.data}" class="hover:bg-gray-50">
                     <td class="border p-2 text-center" th:text="${payment.id}"></td>
-                    <td class="border p-2 text-center" th:text="${payment.amount} + ' €'"></td>
+                    <td class="border p-2 text-center" th:text="${payment.amount}/100 + ' $'"></td>
                     <td class="border p-2 text-center" th:text="${payment.paymentSource}"></td>
                     <td class="border p-2 text-center" th:text="${#temporals.format(payment.paymentDate, 'dd/MM/yyyy')}"></td>
                     <td class="border p-2 text-center">
@@ -32,12 +32,12 @@
 
     <!-- Pagination -->
     <div class="flex justify-between items-center mt-4">
-        <a th:if="${currentPage > 1}" th:href="@{/payments(page=${currentPage - 1})}" 
+        <a th:if="${payments.currentPage > 1}" th:href="@{/payments(page=${payments.currentPage - 1})}" 
            class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Précédent</a>
 
-        <span class="text-gray-700">Page <span th:text="${currentPage}"></span> / <span th:text="${totalPages}"></span></span>
+        <span class="text-gray-700">Page <span th:text="${payments.currentPage}"></span> / <span th:text="${payments.lastPage}"></span></span>
 
-        <a th:if="${currentPage < totalPages}" th:href="@{/payments(page=${currentPage + 1})}" 
+        <a th:if="${payments.currentPage < payments.lastPage}" th:href="@{/payments(page=${payments.currentPage + 1})}" 
            class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Suivant</a>
     </div>
 </div>

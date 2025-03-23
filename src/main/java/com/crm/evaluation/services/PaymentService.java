@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.crm.evaluation.dtos.PaymentResponseDTO;
+import com.crm.evaluation.responses.PaymentResponse;
 
 @Service
 public class PaymentService {
@@ -21,13 +21,13 @@ public class PaymentService {
         this.restTemplate = restTemplate;
     }
 
-    public PaymentResponseDTO getPayments(int page,int perPage) {
+    public PaymentResponse getPayments(int page,int perPage) {
         @SuppressWarnings("deprecation")
         String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl+"/payments")
                 .queryParam("per_page", perPage)
                 .queryParam("page",page)
                 .toUriString();
 
-        return restTemplate.getForObject(url, PaymentResponseDTO.class);
+        return restTemplate.getForObject(url, PaymentResponse.class);
     }
 }

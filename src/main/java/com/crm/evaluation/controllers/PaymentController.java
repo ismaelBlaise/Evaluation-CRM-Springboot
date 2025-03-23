@@ -17,8 +17,8 @@ public class PaymentController {
     @GetMapping
     public ModelAndView getPayments( @RequestParam(value = "page", defaultValue = "1") int page,@RequestParam(value = "per_page", defaultValue = "10") int perPage) throws Exception {
         ModelAndView modelAndView=new ModelAndView("template");
-        modelAndView.addObject("page","payements/payments");
-        modelAndView.addObject("paymenys",paymentService.getPayments(page, perPage));
+        modelAndView.addObject("page","payments/payments");
+        modelAndView.addObject("payments",paymentService.getPayments(page, perPage));
         return modelAndView;
     }
 }

@@ -1,12 +1,14 @@
-package com.crm.evaluation.dtos;
+package com.crm.evaluation.responses;
 
 
 import java.util.List;
+
+import com.crm.evaluation.dtos.PaymentDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class PaymentResponseDTO {
+public class PaymentResponse {
     
     @JsonProperty("current_page")
     private int currentPage;
