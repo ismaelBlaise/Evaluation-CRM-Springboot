@@ -20,7 +20,7 @@
             <tbody>
                 <tr th:each="payment : ${payments.data}" class="hover:bg-gray-50">
                     <td class="border p-2 text-center" th:text="${payment.id}"></td>
-                    <td class="border p-2 text-center" th:text="${payment.amount}/100 + ' $'"></td>
+                    <td class="border p-2 text-center amount-value" th:text="${payment.amount}"></td>
                     <td class="border p-2 text-center" th:text="${payment.paymentSource}"></td>
                     <td class="border p-2 text-center" th:text="${#temporals.format(payment.paymentDate, 'dd/MM/yyyy')}"></td>
                     <td class="border p-2 text-center">
@@ -46,3 +46,5 @@
            class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Suivant</a>
     </div>
 </div>
+
+
