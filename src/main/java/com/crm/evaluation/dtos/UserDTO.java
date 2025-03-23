@@ -1,11 +1,11 @@
-package com.crm.evaluation.models;
+package com.crm.evaluation.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
 @Data
-public class User {
+public class UserDTO {
 
     @JsonProperty("external_id")
     private String externalId;

@@ -1,6 +1,6 @@
 package com.crm.evaluation.responses;
 
-import com.crm.evaluation.models.User;
+import com.crm.evaluation.dtos.UserDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
@@ -10,7 +10,7 @@ public class LoginResponse {
     @JsonProperty("message")
     String message;
     @JsonProperty("user")
-    User user;
+    UserDTO user;
     @JsonProperty("token")
     String token;
 
