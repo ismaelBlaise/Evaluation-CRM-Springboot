@@ -1,0 +1,75 @@
+<div class="container mx-auto p-8">
+    <h1 class="text-3xl font-bold text-center mb-8">Dashboard</h1>
+
+    <div th:if="${erreur}" class="text-red-600 font-bold text-center mb-4">
+        <p th:text="${erreur}"></p>
+    </div>
+
+    <!-- Grid system to align the cards horizontally -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+        
+        <!-- Client Card -->
+        <div class="bg-white p-4 rounded-lg shadow-lg flex flex-col items-center">
+            <h2 class="text-xl font-semibold text-gray-700">Clients</h2>
+            <p class="text-3xl font-bold text-indigo-600 mt-2" th:text="${nbClients}"></p>
+            <a href="/clients" class="text-indigo-600 mt-2 flex items-center">
+                See all <i class="bi bi-arrow-right ml-1"></i>
+            </a>
+        </div>
+        
+        <!-- Project Card -->
+        <div class="bg-white p-4 rounded-lg shadow-lg flex flex-col items-center">
+            <h2 class="text-xl font-semibold text-gray-700">Projects</h2>
+            <p class="text-3xl font-bold text-indigo-600 mt-2" th:text="${nbProjects}"></p>
+            <a href="/projects" class="text-indigo-600 mt-2 flex items-center">
+                See all <i class="bi bi-arrow-right ml-1"></i>
+            </a>
+        </div>
+
+        <!-- Task Card -->
+        <div class="bg-white p-4 rounded-lg shadow-lg flex flex-col items-center">
+            <h2 class="text-xl font-semibold text-gray-700">Tasks</h2>
+            <p class="text-3xl font-bold text-indigo-600 mt-2" th:text="${nbTasks}"></p>
+            <a href="/tasks" class="text-indigo-600 mt-2 flex items-center">
+                See all <i class="bi bi-arrow-right ml-1"></i>
+            </a>
+        </div>
+
+        <!-- Offer Card -->
+        <div class="bg-white p-4 rounded-lg shadow-lg flex flex-col items-center">
+            <h2 class="text-xl font-semibold text-gray-700">Offers</h2>
+            <p class="text-3xl font-bold text-indigo-600 mt-2" th:text="${nbOffers}"></p>
+            <a href="/offers" class="text-indigo-600 mt-2 flex items-center">
+                See all <i class="bi bi-arrow-right ml-1"></i>
+            </a>
+        </div>
+
+        <!-- Invoice Card -->
+        <div class="bg-white p-4 rounded-lg shadow-lg flex flex-col items-center">
+            <h2 class="text-xl font-semibold text-gray-700">Invoices</h2>
+            <p class="text-3xl font-bold text-indigo-600 mt-2" th:text="${nbInvoices}"></p>
+            <a href="/invoices" class="text-indigo-600 mt-2 flex items-center">
+                See all <i class="bi bi-arrow-right ml-1"></i>
+            </a>
+        </div>
+
+        <!-- Payment Card -->
+        <div class="bg-white p-4 rounded-lg shadow-lg flex flex-col items-center">
+            <h2 class="text-xl font-semibold text-gray-700">Payments</h2>
+            <p class="text-3xl font-bold text-indigo-600 mt-2" th:text="${nbPayments}"></p>
+            <a href="/payments" class="text-indigo-600 mt-2 flex items-center">
+                See all <i class="bi bi-arrow-right ml-1"></i>
+            </a>
+        </div>
+
+        <!-- Invoice Lines Card -->
+        <div class="bg-white p-4 rounded-lg shadow-lg flex flex-col items-center">
+            <h2 class="text-xl font-semibold text-gray-700">Invoice Lines</h2>
+            <p class="text-3xl font-bold text-indigo-600 mt-2" th:text="${nbInvoiceLines}"></p>
+            <a href="/invoice-lines" class="text-indigo-600 mt-2 flex items-center">
+                See all <i class="bi bi-arrow-right ml-1"></i>
+            </a>
+        </div>
+
+    </div>
+</div>
