@@ -105,8 +105,16 @@ public class DashboardService {
 
 
     @SuppressWarnings({ "unchecked", "deprecation" })
-    public Map<String, Double> getInvoicePaymentSummary() throws Exception {
+    public Map<String, Double> getInvoicePaymentSummary(String annee,String mois) throws Exception {
         String url = apiBaseUrl + "/invoices/chart"; 
+        if(annee!=null){
+            url+="/"+annee;
+        }
+
+        if(mois!=null){
+            url+="/"+mois;
+        }
+        
         RestTemplate restTemplate = new RestTemplate();
         
         HttpHeaders headers = new HttpHeaders();

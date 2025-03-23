@@ -41,7 +41,7 @@ public class LoginService {
             ResponseEntity<String> response = restTemplate.exchange(apiBaseUrl+"/login", HttpMethod.POST, entity, String.class);
 
             if (response.getStatusCodeValue() != 200) {
-                System.out.println("Helloooo");
+                // System.out.println("Helloooo");
                 throw new Exception("Identifiants incorrects.");
             }
 
