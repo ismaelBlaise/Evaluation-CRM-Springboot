@@ -76,7 +76,7 @@ public class PaymentService {
     public String deletePayment(Long paymentId) {
         @SuppressWarnings("deprecation")
         String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl + "/payments/delete/" + paymentId)
-                .toUriString();
+                .toUriString(); 
 
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("id", paymentId);

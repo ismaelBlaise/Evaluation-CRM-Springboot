@@ -34,13 +34,13 @@ public class DashboardService {
         int nbOffers = getEntityCount("offers/nb");
         int nbInvoices = getEntityCount("invoices/nb");
         int nbPayments = getEntityCount("payments/nb");
-        // double sumPayments = getEntityCount("payments/sum");
+        double sumPayments = getEntitySum("payments/sum");
         int nbInvoiceLines = getEntityCount("invoice-lines/nb");
 
         DashboardResponse dashboardResponse = new DashboardResponse(
                 nbClients, nbProjects, nbTasks, nbOffers, nbInvoices, nbPayments, nbInvoiceLines
         );
-        // dashboardResponse.setSumPayments(sumPayments);
+        dashboardResponse.setSumPayments(sumPayments);
         
         return dashboardResponse;
     }
@@ -74,6 +74,43 @@ public class DashboardService {
             throw new Exception(e.getMessage());
         }
     }
+
+
+    
+    @SuppressWarnings("deprecation")
+    private double getEntitySum(String endpoint) throws Exception {
+        String url = apiBaseUrl + "/" + endpoint;
+
+        RestTemplate restTemplate = new RestTemplate();
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+            
+            if (response.getStatusCodeValue() != 200) {
+                throw new Exception("Erreur lors de la récupération des données.");
+            }
+            
+            ObjectMapper objectMapper = new ObjectMapper();
+            @SuppressWarnings("unchecked")
+            Map<String, Number> responseMap = objectMapper.readValue(response.getBody(), Map.class);
+
+            return responseMap.values().stream()
+                    .findFirst()
+                    .map(Number::doubleValue) // Convertir en double quelle que soit la valeur
+                    .orElse(0.0);
+                    
+        } catch (HttpClientErrorException e) {
+            throw new Exception("Erreur lors de l'appel API pour " + endpoint);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
 
     @SuppressWarnings({ "unchecked", "deprecation" })
     public Map<String, Integer> getProjectCountByStatus() throws Exception {
