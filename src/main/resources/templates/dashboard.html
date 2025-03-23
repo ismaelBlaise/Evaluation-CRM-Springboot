@@ -98,6 +98,7 @@
             <div id="invoicePaymentError" class="text-red-600 text-center mt-4 hidden">
                 <p>Erreur lors du chargement des données des paiements.</p>
             </div>
+            
         </div>
     </div>
 </div>
@@ -241,17 +242,16 @@
         try {
             const monthInput = document.querySelector('input[type="month"]');
             const selectedMonth = monthInput.value;
-            
-            if (!selectedMonth) {
-                document.getElementById('invoicePaymentError').classList.remove('hidden');
-                return;
-            }
+            let url="http://localhost:8080/api/invoices/chart";
     
-            const annee = selectedMonth.split('-')[0];  // L'année est la première partie de la valeur
-            const mois = selectedMonth.split('-')[1];   // Le mois est la deuxième partie de la valeur
+            const annee = selectedMonth.split('-')[0];   
+            const mois = selectedMonth.split('-')[1];    
             
-            const url = `http://localhost:8080/api/invoices/chart?annee=${annee}&mois=${mois}`;
             
+            
+            if (selectedMonth) {
+                url = `http://localhost:8080/api/invoices/chart/${annee}/${mois}`;
+            }
             const response = await fetch(url, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
@@ -263,7 +263,7 @@
     
             const paymentData = await response.json();
             displayInvoicePaymentChart(paymentData);
-            document.getElementById('invoicePaymentError').classList.add('hidden');
+            //document.getElementById('invoicePaymentError').classList.add('hidden');
         } catch (error) {
             console.error(error);
             document.getElementById('invoicePaymentError').classList.remove('hidden');
@@ -272,9 +272,16 @@
     
     // Fonction pour afficher le graphique avec les données récupérées
     function displayInvoicePaymentChart(paymentData) {
-        const invoicePaymentChart = document.getElementById('invoicePaymentChart').getContext('2d');
+        const invoicePaymentChartElement = document.getElementById('invoicePaymentChart');
+        const ctx = invoicePaymentChartElement.getContext('2d');
     
-        new Chart(invoicePaymentChart, {
+        // Vérifiez si un graphique existe déjà et détruisez-le
+        if (invoicePaymentChartElement.chart) {
+            invoicePaymentChartElement.chart.destroy();
+        }
+    
+        // Créez un nouveau graphique
+        invoicePaymentChartElement.chart = new Chart(ctx, {
             type: 'pie',
             data: {
                 labels: ['Total Paid ($)', 'Total Unpaid ($)'],
@@ -295,8 +302,9 @@
     }
     
     
-    document.querySelector('input[type="month"]').addEventListener('change', fetchInvoicePaymentData);
     fetchInvoicePaymentData();
+    document.querySelector('input[type="month"]').addEventListener('change', fetchInvoicePaymentData);
+    
     fetchProjectStatusData();
     fetchMonthlyRevenueData();
 </script>
