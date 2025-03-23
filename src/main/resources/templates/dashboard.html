@@ -55,7 +55,6 @@
 
         <div class="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center">
             <h2 class="text-lg font-semibold text-gray-800">Payments</h2>
-            <!-- Display the number of payments -->
             <p class="text-xl font-bold text-indigo-600 mt-3" th:text="${nbPayments} +'/ $'+ ${sumPayments}"></p>
             <a href="/payments" class="text-indigo-600 mt-2 flex items-center hover:text-indigo-800 transition-colors">
                 See all <i class="bi bi-arrow-right ml-1"></i>
@@ -63,7 +62,7 @@
         </div>
         
 
-        <!-- Invoice Lines Card -->
+         
         <div class="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center">
             <h2 class="text-lg font-semibold text-gray-800">Invoice Lines</h2>
             <p class="text-3xl font-bold text-indigo-600 mt-3" th:text="${nbInvoiceLines}"></p>
@@ -73,7 +72,7 @@
         </div>
     </div>
     <div class="grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-2 gap-2">
-        <!-- Chart for Project Status -->
+        
         <div class="bg-white p-6 rounded-xl shadow-lg mt-8">
             <h2 class="text-2xl font-semibold text-gray-800 text-center mb-4">Project Status Distribution</h2>
             <canvas id="projectStatusChart"></canvas>
@@ -88,6 +87,14 @@
             <canvas id="monthlyRevenueChart"></canvas>
             <div id="monthlyRevenueError" class="text-red-600 text-center mt-4 hidden">
                 <p>Erreur lors du chargement des données des revenus mensuels.</p>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-lg mt-8">
+            <h2 class="text-2xl font-semibold text-gray-800 text-center mb-4">Invoice Payment Distribution</h2>
+            <canvas id="invoicePaymentChart"></canvas>
+            <div id="invoicePaymentError" class="text-red-600 text-center mt-4 hidden">
+                <p>Erreur lors du chargement des données des paiements.</p>
             </div>
         </div>
     </div>
@@ -227,7 +234,53 @@
         });
     }
 
-    // Fetch data and display charts
+
+    async function fetchInvoicePaymentData() {
+        try {
+            const url = 'http://localhost:8000/api/invoices/chart';
+            
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (!response.ok) {
+                throw new Error('Erreur lors de la récupération des données');
+            }
+
+            const paymentData = await response.json();
+            displayInvoicePaymentChart(paymentData);
+            document.getElementById('invoicePaymentError').classList.add('hidden');
+        } catch (error) {
+            console.error(error);
+            document.getElementById('invoicePaymentError').classList.remove('hidden');
+        }
+    }
+
+    function displayInvoicePaymentChart(paymentData) {
+        const invoicePaymentChart = document.getElementById('invoicePaymentChart').getContext('2d');
+
+        new Chart(invoicePaymentChart, {
+            type: 'pie',
+            data: {
+                labels: ['Total Paid', 'Total Unpaid'],
+                datasets: [{
+                    data: [paymentData.total_paid, paymentData.total_unpaid],
+                    backgroundColor: ['rgba(34, 197, 94, 0.7)', 'rgba(239, 68, 68, 0.7)'],
+                    borderColor: ['rgba(34, 197, 94, 1)', 'rgba(239, 68, 68, 1)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' }
+                }
+            }
+        });
+    }
+
+    fetchInvoicePaymentData();
     fetchProjectStatusData();
     fetchMonthlyRevenueData();
 </script>

@@ -3,6 +3,7 @@ package com.crm.evaluation.services;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.crm.evaluation.responses.DashboardResponse;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -97,6 +98,35 @@ public class DashboardService {
             return projectStatusMap; 
         } catch (HttpClientErrorException e) {
             throw new Exception("Erreur lors de l'appel API pour le nombre de projets par statut.");
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+
+    @SuppressWarnings({ "unchecked", "deprecation" })
+    public Map<String, String> getInvoicePaymentSummary() throws Exception {
+        String url = apiBaseUrl + "/invoices/chart"; 
+        RestTemplate restTemplate = new RestTemplate();
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+            
+            if (response.getStatusCodeValue() != 200) {
+                throw new Exception("Erreur lors de la récupération des données.");
+            }
+            
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, String> projectStatusMap = objectMapper.readValue(response.getBody(), new TypeReference<Map<String, String>>() {});
+            
+            return projectStatusMap; 
+        } catch (HttpClientErrorException e) {
+            throw new Exception("Erreur lors de l'appel API les factures paye et non paye.");
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
