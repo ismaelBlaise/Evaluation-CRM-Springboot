@@ -49,7 +49,7 @@ public class PaymentController {
                 modelAndView.addObject("succes", "Montant modifier avec succes");
             }
             else {
-                modelAndView.addObject("error", update.get("error"));
+                modelAndView.addObject("error", "le montant ne doit pas depasser le montant du facture");
             }
         } catch (IllegalArgumentException e) {
             modelAndView.addObject("error", "Erreur: Montant invalide.");
