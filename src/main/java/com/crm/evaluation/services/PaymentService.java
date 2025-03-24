@@ -15,7 +15,8 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.crm.evaluation.responses.PaymentResponse;
 
 @Service
@@ -43,9 +44,41 @@ public class PaymentService {
     }
 
 
+    // public String updatePayment(Long paymentId, double newAmount) {
+    //     @SuppressWarnings("deprecation")
+    //     String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl + "/payments/update-2/" + paymentId)
+    //             .toUriString();
+
+    //     Map<String, Object> requestBody = new HashMap<>();
+    //     requestBody.put("amount", newAmount);
+
+    //     HttpHeaders headers = new HttpHeaders();
+    //     headers.setContentType(MediaType.APPLICATION_JSON);
+
+    //     HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
+
+    //     try {
+    //         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+    //         return response.getBody();
+    //     } catch (HttpClientErrorException.NotFound e) {
+    //         return "Erreur : Paiement non trouvé (404)";
+    //     } catch (HttpClientErrorException.BadRequest e) {
+    //         return "Erreur : Requête invalide (400)";
+    //     } catch (HttpServerErrorException e) {
+    //         return "Erreur serveur : " + e.getMessage();
+    //     } catch (ResourceAccessException e) {
+    //         return "Erreur : Impossible de contacter le serveur Laravel";
+    //     } catch (Exception e) {
+    //         return "Erreur inconnue : " + e.getMessage();
+    //     }
+    // }
+
+
+    
+
     public String updatePayment(Long paymentId, double newAmount) {
         @SuppressWarnings("deprecation")
-        String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl + "/payments/update/" + paymentId)
+        String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl + "/payments/update-2/" + paymentId)
                 .toUriString();
 
         Map<String, Object> requestBody = new HashMap<>();
@@ -59,17 +92,29 @@ public class PaymentService {
         try {
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
             return response.getBody();
-        } catch (HttpClientErrorException.NotFound e) {
-            return "Erreur : Paiement non trouvé (404)";
-        } catch (HttpClientErrorException.BadRequest e) {
-            return "Erreur : Requête invalide (400)";
+        } catch (HttpClientErrorException e) {
+            return extractErrorMessage(e.getResponseBodyAsString());
         } catch (HttpServerErrorException e) {
-            return "Erreur serveur : " + e.getMessage();
+            return extractErrorMessage(e.getResponseBodyAsString());
         } catch (ResourceAccessException e) {
             return "Erreur : Impossible de contacter le serveur Laravel";
         } catch (Exception e) {
             return "Erreur inconnue : " + e.getMessage();
         }
+    }
+
+
+    private String extractErrorMessage(String json) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode rootNode = objectMapper.readTree(json);
+            if (rootNode.has("error")) {
+                return "Erreur : " + rootNode.get("error").asText();
+            }
+        } catch (Exception e) {
+            return "Erreur inattendue lors de la lecture de la réponse : " + e.getMessage();
+        }
+        return "Erreur inconnue du serveur";
     }
 
 
@@ -101,4 +146,5 @@ public class PaymentService {
             return "Erreur inconnue : " + e.getMessage();
         }
     }
+
 }

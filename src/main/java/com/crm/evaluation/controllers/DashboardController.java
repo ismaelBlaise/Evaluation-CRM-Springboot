@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpSession;
+import reactor.core.publisher.Mono;
 
 @Controller
 @RequestMapping("/dashboard")
@@ -21,7 +22,9 @@ public class DashboardController {
     public ModelAndView getDashboardData(HttpSession session) {
         ModelAndView modelAndView = new ModelAndView("template");
         modelAndView.addObject("page", "dashboard");
+        String token = (String) session.getAttribute("token");
 
+        
         try {
             DashboardResponse dashboardResponse = dashboardService.getDashboardData();
            
