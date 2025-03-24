@@ -76,7 +76,7 @@ public class PaymentService {
 
     
 
-    public String updatePayment(Long paymentId, double newAmount) {
+    public Map<String,String> updatePayment(Long paymentId, double newAmount) {
         @SuppressWarnings("deprecation")
         String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl + "/payments/update-2/" + paymentId)
                 .toUriString();
@@ -93,19 +93,15 @@ public class PaymentService {
             ResponseEntity<Map> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Map.class);
             Map<String, String> response = (Map<String, String>) responseEntity.getBody();
             
-            if (response != null && response.containsKey("error")) {
-                return response.get("error");
-            } else {
-                return "Mise à jour réussie";
-            }
+           return response;
         } catch (HttpClientErrorException e) {
-            return extractErrorMessage(e.getResponseBodyAsString());
+            throw e;
         } catch (HttpServerErrorException e) {
-            return extractErrorMessage(e.getResponseBodyAsString());
+            throw e;
         } catch (ResourceAccessException e) {
-            return "Erreur : Impossible de contacter le serveur Laravel";
+            throw e;
         } catch (Exception e) {
-            return "Erreur inconnue : " + e.getMessage();
+            throw e;
         }
     }
     

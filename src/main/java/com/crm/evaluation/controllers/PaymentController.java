@@ -1,5 +1,7 @@
 package com.crm.evaluation.controllers;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,12 +44,12 @@ public class PaymentController {
         modelAndView.addObject("amount", amount);
     
         try {
-            String update=paymentService.updatePayment(id, amount);
-            if(update==null){
+            Map<String,String> update=paymentService.updatePayment(id, amount);
+            if(!update.containsKey("error")){
                 modelAndView.addObject("succes", "Montant modifier avec succes");
             }
             else {
-                modelAndView.addObject("error", update);
+                modelAndView.addObject("error", update.get("error"));
             }
         } catch (IllegalArgumentException e) {
             modelAndView.addObject("error", "Erreur: Montant invalide.");
