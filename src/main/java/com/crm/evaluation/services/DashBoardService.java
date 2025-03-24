@@ -169,7 +169,7 @@ public class DashboardService {
             ObjectMapper objectMapper = new ObjectMapper();
              
             Map<String, Double> projectStatusMap = objectMapper.readValue(response.getBody(), new TypeReference<Map<String, Double>>() {});
-            
+            System.out.println(projectStatusMap.get("total_paid"));
             return projectStatusMap; 
         } catch (HttpClientErrorException e) {
             throw new Exception("Erreur lors de l'appel API les factures paye et non paye.");
