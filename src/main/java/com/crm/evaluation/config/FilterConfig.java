@@ -11,8 +11,7 @@ public class FilterConfig {
     public FilterRegistrationBean<CustomSessionFilter> sessionFilter() {
         FilterRegistrationBean<CustomSessionFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new CustomSessionFilter());
-        registrationBean.addUrlPatterns("/*"); 
+        registrationBean.addUrlPatterns("/*"); // Filtrer toutes les requêtes
         return registrationBean;
-        
     }
 }

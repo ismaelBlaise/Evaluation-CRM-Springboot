@@ -30,7 +30,7 @@
             <tbody>
                 <tr th:each="payment : ${payments.data}" class="hover:bg-gray-50">
                     <td class="border p-2 text-center" th:text="${payment.id}"></td>
-                    <td class="border p-2 text-center toggle-column" th:text="${payment.amount}"></td>
+                    <td class="border p-2 text-center toggle-column amount-value" th:text="${payment.amount}"></td>
                     <td class="border p-2 text-center toggle-column" th:text="${payment.paymentSource}"></td>
                     <td class="border p-2 text-center toggle-column" th:text="${#temporals.format(payment.paymentDate, 'dd/MM/yyyy')}"></td>
                     <td class="border p-2 text-center toggle-column">

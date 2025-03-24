@@ -18,7 +18,7 @@ public class PaymentApiController {
 
     @GetMapping("/chart")
     public Map<String, Integer> getMonthlyRevenueChart() throws Exception {
-        return dashboardService.getMonthlyRevenueChart();
+        return dashboardService.getMonthlyRevenueChart().getDataInteger();
     }
 
     

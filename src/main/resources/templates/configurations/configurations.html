@@ -5,7 +5,7 @@
         <div th:if="${message}" class="text-green-600 text-center mb-2" th:text="${message}"></div>
         <div th:if="${error}" class="text-red-600 text-center mb-2" th:text="${error}"></div>
 
-        <form th:action="@{/configuration/insert}" method="POST" class="space-y-4">
+        <form th:action="@{/configurations/insert}" method="POST" class="space-y-4">
             <div>
                 <label for="remise_globale" class="block text-gray-600 font-medium">Remise Globale (%) :</label>
                 <input type="number" id="remise_globale" name="remise_globale" step="0.01" min="0" max="100" required

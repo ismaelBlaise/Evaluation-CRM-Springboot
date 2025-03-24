@@ -42,8 +42,13 @@ public class PaymentController {
         modelAndView.addObject("amount", amount);
     
         try {
-            paymentService.updatePayment(id, amount);
-            modelAndView.addObject("succes", "Montant modifier avec succes");
+            String update=paymentService.updatePayment(id, amount);
+            if(update==null){
+                modelAndView.addObject("succes", "Montant modifier avec succes");
+            }
+            else {
+                modelAndView.addObject("error", update);
+            }
         } catch (IllegalArgumentException e) {
             modelAndView.addObject("error", "Erreur: Montant invalide.");
         } catch (Exception e) {
