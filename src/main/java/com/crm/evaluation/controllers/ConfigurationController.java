@@ -15,7 +15,7 @@ import com.crm.evaluation.services.ConfigurationService;
 import reactor.core.publisher.Mono;
 
 @Controller
-@RequestMapping("/configuration")
+@RequestMapping("/configurations")
 public class ConfigurationController {
     private final ConfigurationService configurationService;
 
