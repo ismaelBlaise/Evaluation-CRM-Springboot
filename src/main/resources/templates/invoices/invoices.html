@@ -78,14 +78,11 @@
 
 
 <script>
-    function toggleColumn(index) {
-        const rows = document.querySelectorAll('table tbody tr');
-        rows.forEach(row => {
-            const cell = row.cells[index];
-            if (cell.style.display === 'none') {
-                cell.style.display = '';
-            } else {
-                cell.style.display = 'none';
+    function toggleColumn(colIndex) {
+        document.querySelectorAll("table tr").forEach(row => {
+            if (row.cells.length > colIndex) {
+                let cell = row.cells[colIndex];
+                cell.style.display = (cell.style.display === "none") ? "" : "none";
             }
         });
     }
