@@ -1,0 +1,88 @@
+<div class="max-w-5xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <h2 class="text-2xl font-semibold mb-4 text-center">Détails des clients</h2>
+
+    <div th:if="${erreur}" class="mb-4 p-4 bg-red-200 text-red-600 rounded-md">
+        <p th:text="${erreur}"></p>
+    </div>
+    <div th:if="${succes}" class="mb-4 p-4 bg-green-200 text-green-600 rounded-md">
+        <p th:text="${succes}"></p>
+    </div>
+
+    <!-- Boutons pour afficher/masquer les colonnes -->
+    <div class="mb-4 p-2 bg-gray-100 rounded-lg">
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(0)"> ID</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(1)"> External ID</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(2)"> Adresse</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(3)"> Code Postal</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(4)"> Ville</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(5)"> Company</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(6)"> VAT</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(7)"> Type</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(8)"> Numéro Client</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(9)"> Créé le</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(10)"> Modifié le</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(11)"> Supprimé le</label>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse border border-gray-300">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="border p-2 text-center">ID</th>
+                    <th class="border p-2 text-center">External ID</th>
+                    <th class="border p-2 text-center">Adresse</th>
+                    <th class="border p-2 text-center">Code Postal</th>
+                    <th class="border p-2 text-center">Ville</th>
+                    <th class="border p-2 text-center">Company</th>
+                    <th class="border p-2 text-center">VAT</th>
+                    <th class="border p-2 text-center">Type</th>
+                    <th class="border p-2 text-center">Numéro Client</th>
+                    <th class="border p-2 text-center">Créé le</th>
+                    <th class="border p-2 text-center">Modifié le</th>
+                    <th class="border p-2 text-center">Supprimé le</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="client : ${clients.data}" class="hover:bg-gray-50">
+                    <td class="border p-2 text-center" th:text="${client.id}"></td>
+                    <td class="border p-2 text-center" th:text="${client.externalId}"></td>
+                    <td class="border p-2 text-center" th:text="${client.address}"></td>
+                    <td class="border p-2 text-center" th:text="${client.zipcode}"></td>
+                    <td class="border p-2 text-center" th:text="${client.city}"></td>
+                    <td class="border p-2 text-center" th:text="${client.companyName}"></td>
+                    <td class="border p-2 text-center" th:text="${client.vat}"></td>
+                    <td class="border p-2 text-center" th:text="${client.companyType}"></td>
+                    <td class="border p-2 text-center" th:text="${client.clientNumber}"></td>
+                    <td class="border p-2 text-center" th:text="${#temporals.format(client.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td class="border p-2 text-center" th:text="${#temporals.format(client.updatedAt, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td class="border p-2 text-center">
+                        <span th:if="${client.deletedAt != null}" th:text="${#temporals.format(client.deletedAt, 'dd/MM/yyyy HH:mm')}"></span>
+                        <span th:unless="${client.deletedAt != null}">-</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex justify-between items-center mt-4">
+        <a th:if="${clients.currentPage > 1}" th:href="@{/clients(page=${clients.currentPage - 1})}" 
+           class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Précédent</a>
+
+        <span class="text-gray-700">Page <span th:text="${clients.currentPage}"></span> / <span th:text="${clients.lastPage ?: 1}"></span></span>
+
+        <a th:if="${clients.currentPage < clients.lastPage}" th:href="@{/clients(page=${clients.currentPage + 1})}" 
+           class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Suivant</a>
+    </div>
+</div>
+
+<script>
+    function toggleColumn(colIndex) {
+        document.querySelectorAll("table tr").forEach(row => {
+            if (row.cells.length > colIndex) {
+                let cell = row.cells[colIndex];
+                cell.style.display = (cell.style.display === "none") ? "" : "none";
+            }
+        });
+    }
+</script>

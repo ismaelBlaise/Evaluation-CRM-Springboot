@@ -1,0 +1,93 @@
+<div class="max-w-5xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <h2 class="text-2xl font-semibold mb-4 text-center">Détails des Factures</h2>
+
+    <div th:if="${erreur}" class="mb-4 p-4 bg-red-200 text-red-600 rounded-md">
+        <p th:text="${erreur}"></p>
+    </div>
+    <div th:if="${succes}" class="mb-4 p-4 bg-green-200 text-green-600 rounded-md">
+        <p th:text="${succes}"></p>
+    </div>
+
+    <!-- Boutons pour afficher/masquer les colonnes -->
+    <div class="mb-4 p-2 bg-gray-100 rounded-lg">
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(0)"> ID</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(1)"> External ID</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(2)"> Statut</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(3)"> Numéro de Facture</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(4)"> Date d'envoi</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(5)"> Date d'échéance</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(6)"> Source Type</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(7)"> Client ID</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(8)"> Offer ID</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(9)"> Créé le</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(10)"> Modifié le</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(11)"> Supprimé le</label>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse border border-gray-300">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="border p-2 text-center">ID</th>
+                    <th class="border p-2 text-center">External ID</th>
+                    <th class="border p-2 text-center">Statut</th>
+                    <th class="border p-2 text-center">Numéro de Facture</th>
+                    <th class="border p-2 text-center">Date d'envoi</th>
+                    <th class="border p-2 text-center">Date d'échéance</th>
+                    <th class="border p-2 text-center">Source Type</th>
+                    <th class="border p-2 text-center">Client ID</th>
+                    <th class="border p-2 text-center">Offer ID</th>
+                    <th class="border p-2 text-center">Créé le</th>
+                    <th class="border p-2 text-center">Modifié le</th>
+                    <th class="border p-2 text-center">Supprimé le</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="invoice : ${invoices.data}" class="hover:bg-gray-50">
+                    <td class="border p-2 text-center" th:text="${invoice.id}"></td>
+                    <td class="border p-2 text-center" th:text="${invoice.externalId}"></td>
+                    <td class="border p-2 text-center" th:text="${invoice.status}"></td>
+                    <td class="border p-2 text-center" th:text="${invoice.invoiceNumber}"></td>
+                    <td class="border p-2 text-center" th:text="${invoice.sentAt}"></td>
+                    <td class="border p-2 text-center" th:text="${invoice.dueAt}"></td>
+                    <td class="border p-2 text-center" th:text="${invoice.sourceType}"></td>
+                    <td class="border p-2 text-center" th:text="${invoice.clientId}"></td>
+                    <td class="border p-2 text-center" th:text="${invoice.offerId}"></td>
+                    <td class="border p-2 text-center" th:text="${#temporals.format(invoice.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td class="border p-2 text-center" th:text="${#temporals.format(invoice.updatedAt, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td class="border p-2 text-center">
+                        <span th:if="${invoice.deletedAt != null}" th:text="${#temporals.format(invoice.deletedAt, 'dd/MM/yyyy HH:mm')}"></span>
+                        <span th:unless="${invoice.deletedAt != null}">-</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex justify-between items-center mt-4">
+        <a th:if="${invoices.currentPage > 1}" th:href="@{/invoices(page=${invoices.currentPage - 1})}" 
+           class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Précédent</a>
+
+        <span class="text-gray-700">Page <span th:text="${invoices.currentPage}"></span> / <span th:text="${invoices.lastPage ?: 1}"></span></span>
+
+        <a th:if="${invoices.currentPage < invoices.lastPage}" th:href="@{/invoices(page=${invoices.currentPage + 1})}" 
+           class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Suivant</a>
+    </div>
+</div>
+
+
+<script>
+    function toggleColumn(index) {
+        const rows = document.querySelectorAll('table tbody tr');
+        rows.forEach(row => {
+            const cell = row.cells[index];
+            if (cell.style.display === 'none') {
+                cell.style.display = '';
+            } else {
+                cell.style.display = 'none';
+            }
+        });
+    }
+    
+</script>

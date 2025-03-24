@@ -29,6 +29,8 @@
             });
         });
     </script>
+
+    
 </head>
 <body class="bg-gray-100 font-sans">
 
@@ -55,6 +57,17 @@
         <nav class="px-4 py-6">
             <ul class="space-y-4">
                 <li>
+                    <a href="/dashboard" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+                        <i class="bi bi-speedometer2 mr-2"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+                        <i class="bi bi-percent mr-2"></i> Taux remise global
+                    </a>
+                </li>
+                
+                <!-- <li>
                     <button class="flex justify-between w-full text-gray-700 hover:bg-gray-200 p-2 rounded submenu-toggle">
                         <span class="flex items-center"><i class="bi bi-person-circle mr-2"></i> CRM</span>
                         <i class="bi bi-chevron-down"></i>
@@ -63,7 +76,7 @@
                         <li><a href="clients" class="block text-gray-600 hover:text-gray-900">taux de remise global</a></li>
                         
                     </ul>
-                </li>
+                </li> -->
             </ul>
         </nav>
     </aside>
@@ -71,6 +84,16 @@
     <main class="ml-64 pt-20 p-6 lg:ml-0">
         <div th:replace="${page}"></div>
     </main>
-
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".amount-value").forEach(element => {
+                let amount = parseFloat(element.textContent) / 100; // Convertir centimes en dollars
+                element.textContent = new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD'
+                }).format(amount);
+            });
+        });
+    </script>
 </body>
 </html>

@@ -20,4 +20,6 @@ public class PaymentApiController {
     public Map<String, Integer> getMonthlyRevenueChart() throws Exception {
         return dashboardService.getMonthlyRevenueChart();
     }
+
+    
 }

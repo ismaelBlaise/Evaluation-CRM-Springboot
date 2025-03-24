@@ -1,0 +1,70 @@
+<div class="max-w-5xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <h2 class="text-2xl font-semibold mb-4 text-center">Détails des Paiements</h2>
+
+    <div th:if="${erreur}" class="mb-4 p-4 bg-red-200 text-red-600 rounded-md">
+        <p th:text="${erreur}"></p>
+    </div>
+    <div th:if="${succes}" class="mb-4 p-4 bg-green-200 text-green-600 rounded-md">
+        <p th:text="${succes}"></p>
+    </div>
+
+    <!-- Boutons pour afficher/masquer les colonnes -->
+    <div class="mb-4 p-2 bg-gray-100 rounded-lg">
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(1)"> Montant</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(2)"> Source</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(3)"> Date</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(4)"> Actions</label>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse border border-gray-300">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="border p-2">ID</th>
+                    <th class="border p-2 toggle-column">Montant</th>
+                    <th class="border p-2 toggle-column">Source</th>
+                    <th class="border p-2 toggle-column">Date</th>
+                    <th class="border p-2 toggle-column">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="payment : ${payments.data}" class="hover:bg-gray-50">
+                    <td class="border p-2 text-center" th:text="${payment.id}"></td>
+                    <td class="border p-2 text-center toggle-column" th:text="${payment.amount}"></td>
+                    <td class="border p-2 text-center toggle-column" th:text="${payment.paymentSource}"></td>
+                    <td class="border p-2 text-center toggle-column" th:text="${#temporals.format(payment.paymentDate, 'dd/MM/yyyy')}"></td>
+                    <td class="border p-2 text-center toggle-column">
+                        <a th:href="@{'/payments/update-form/'+${payment.id}+'/'+${payment.amount}}" 
+                           class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Modifier</a>
+                        <a th:href="@{'/payments/delete/'+${payment.id}}" 
+                           class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                           onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce paiement ?')">Supprimer</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex justify-between items-center mt-4">
+        <a th:if="${payments.currentPage > 1}" th:href="@{/payments(page=${payments.currentPage - 1})}" 
+           class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Précédent</a>
+
+        <span class="text-gray-700">Page <span th:text="${payments.currentPage}"></span> / <span th:text="${payments.lastPage}"></span></span>
+
+        <a th:if="${payments.currentPage < payments.lastPage}" th:href="@{/payments(page=${payments.currentPage + 1})}" 
+           class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Suivant</a>
+    </div>
+</div>
+
+<!-- JavaScript pour masquer/afficher les colonnes -->
+<script>
+    function toggleColumn(colIndex) {
+        document.querySelectorAll("table tr").forEach(row => {
+            let cell = row.cells[colIndex];
+            if (cell) {
+                cell.style.display = (cell.style.display === "none") ? "" : "none";
+            }
+        });
+    }
+</script>

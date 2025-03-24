@@ -1,0 +1,73 @@
+<div class="max-w-5xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <h2 class="text-2xl font-semibold mb-4 text-center">Détails des projets</h2>
+
+    <div th:if="${erreur}" class="mb-4 p-4 bg-red-200 text-red-600 rounded-md">
+        <p th:text="${erreur}"></p>
+    </div>
+    <div th:if="${succes}" class="mb-4 p-4 bg-green-200 text-green-600 rounded-md">
+        <p th:text="${succes}"></p>
+    </div>
+
+    <!-- Boutons pour afficher/masquer les colonnes -->
+    <div class="mb-4 p-2 bg-gray-100 rounded-lg">
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(0)"> Titre</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(1)"> Description</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(2)"> Statut</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(3)"> Date limite</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(4)"> Créé le</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(5)"> Modifié le</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(6)"> Supprimé le</label>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse border border-gray-300">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="border p-2 text-center">Titre</th>
+                    <th class="border p-2 text-center">Description</th>
+                    <th class="border p-2 text-center">Statut</th>
+                    <th class="border p-2 text-center">Date limite</th>
+                    <th class="border p-2 text-center">Créé le</th>
+                    <th class="border p-2 text-center">Modifié le</th>
+                    <th class="border p-2 text-center">Supprimé le</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="project : ${projects.data}" class="hover:bg-gray-50">
+                    <td class="border p-2 text-center" th:text="${project.title}"></td>
+                    <td class="border p-2 text-center" th:utext="${project.description}"></td>
+                    <td class="border p-2 text-center" th:text="${project.statusName}"></td>
+                    <td class="border p-2 text-center" th:text="${#temporals.format(project.deadline, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td class="border p-2 text-center" th:text="${#temporals.format(project.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td class="border p-2 text-center" th:text="${#temporals.format(project.updatedAt, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td class="border p-2 text-center">
+                        <span th:if="${project.deletedAt != null}" th:text="${#temporals.format(project.deletedAt, 'dd/MM/yyyy HH:mm')}"></span>
+                        <span th:unless="${project.deletedAt != null}">-</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex justify-between items-center mt-4">
+        <a th:if="${projects.currentPage > 1}" th:href="@{/projects(page=${projects.currentPage - 1})}" 
+           class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Précédent</a>
+
+        <span class="text-gray-700">Page <span th:text="${projects.currentPage}"></span> / <span th:text="${projects.lastPage ?: 1}"></span></span>
+
+        <a th:if="${projects.currentPage < projects.lastPage}" th:href="@{/projects(page=${projects.currentPage + 1})}" 
+           class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Suivant</a>
+    </div>
+</div>
+
+<script>
+    function toggleColumn(colIndex) {
+        document.querySelectorAll("table tr").forEach(row => {
+            if (row.cells.length > colIndex) {
+                let cell = row.cells[colIndex];
+                cell.style.display = (cell.style.display === "none") ? "" : "none";
+            }
+        });
+    }
+</script>
