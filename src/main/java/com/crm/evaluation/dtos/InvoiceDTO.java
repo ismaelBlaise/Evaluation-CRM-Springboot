@@ -1,6 +1,5 @@
 package com.crm.evaluation.dtos;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class TaskDTO {
+public class InvoiceDTO {
 
     @JsonProperty("id")
     private Long id;
@@ -17,29 +16,29 @@ public class TaskDTO {
     @JsonProperty("external_id")
     private String externalId;
 
-    @JsonProperty("title")
-    private String title;
+    @JsonProperty("sent_at")
+    private String sentAt;
 
-    @JsonProperty("description")
-    private String description;
+    @JsonProperty("due_at")
+    private String dueAt;
 
-    @JsonProperty("status_id")
-    private Integer statusId;
+    @JsonProperty("status")
+    private String status;
 
-    @JsonProperty("user_assigned_id")
-    private Long userAssignedId;
-
-    @JsonProperty("user_created_id")
-    private Long userCreatedId;
+    @JsonProperty("invoice_number")
+    private Long invoiceNumber;
 
     @JsonProperty("client_id")
     private Long clientId;
 
-    @JsonProperty("project_id")
-    private Long projectId;
+    @JsonProperty("source_type")
+    private String sourceType;
 
-    @JsonProperty("deadline")
-    private LocalDateTime deadline;
+    @JsonProperty("source_id")
+    private Long sourceId;
+
+    @JsonProperty("offer_id")
+    private Long offerId;
 
     @JsonProperty("deleted_at")
     private LocalDateTime deletedAt;
@@ -49,7 +48,4 @@ public class TaskDTO {
 
     @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
-    @JsonIgnore
-    private String statusName;
-
 }

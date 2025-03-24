@@ -1,0 +1,73 @@
+<div class="max-w-5xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <h2 class="text-2xl font-semibold mb-4 text-center">Détails des Tâches</h2>
+
+    <div th:if="${erreur}" class="mb-4 p-4 bg-red-200 text-red-600 rounded-md">
+        <p th:text="${erreur}"></p>
+    </div>
+    <div th:if="${succes}" class="mb-4 p-4 bg-green-200 text-green-600 rounded-md">
+        <p th:text="${succes}"></p>
+    </div>
+
+    <!-- Boutons pour afficher/masquer les colonnes -->
+    <div class="mb-4 p-2 bg-gray-100 rounded-lg">
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(0)"> Titre</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(1)"> Description</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(2)"> Statut</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(3)"> Date limite</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(4)"> Créé le</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(5)"> Modifié le</label>
+        <label class="mr-4"><input type="checkbox" checked onclick="toggleColumn(6)"> Supprimé le</label>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse border border-gray-300">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="border p-2 text-center">Titre</th>
+                    <th class="border p-2 text-center">Description</th>
+                    <th class="border p-2 text-center">Statut</th>
+                    <th class="border p-2 text-center">Date limite</th>
+                    <th class="border p-2 text-center">Créé le</th>
+                    <th class="border p-2 text-center">Modifié le</th>
+                    <th class="border p-2 text-center">Supprimé le</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="task : ${tasks.data}" class="hover:bg-gray-50">
+                    <td class="border p-2 text-center" th:text="${task.title}"></td>
+                    <td class="border p-2 text-center" th:utext="${task.description}"></td>
+                    <td class="border p-2 text-center" th:text="${task.statusName}"></td>
+                    <td class="border p-2 text-center" th:text="${#temporals.format(task.deadline, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td class="border p-2 text-center" th:text="${#temporals.format(task.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td class="border p-2 text-center" th:text="${#temporals.format(task.updatedAt, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td class="border p-2 text-center">
+                        <span th:if="${task.deletedAt != null}" th:text="${#temporals.format(task.deletedAt, 'dd/MM/yyyy HH:mm')}"></span>
+                        <span th:unless="${task.deletedAt != null}">-</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex justify-between items-center mt-4">
+        <a th:if="${tasks.currentPage > 1}" th:href="@{/tasks(page=${tasks.currentPage - 1})}" 
+           class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Précédent</a>
+
+        <span class="text-gray-700">Page <span th:text="${tasks.currentPage}"></span> / <span th:text="${tasks.lastPage ?: 1}"></span></span>
+
+        <a th:if="${tasks.currentPage < tasks.lastPage}" th:href="@{/tasks(page=${tasks.currentPage + 1})}" 
+           class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Suivant</a>
+    </div>
+</div>
+
+<script>
+    function toggleColumn(colIndex) {
+        document.querySelectorAll("table tr").forEach(row => {
+            if (row.cells.length > colIndex) {
+                let cell = row.cells[colIndex];
+                cell.style.display = (cell.style.display === "none") ? "" : "none";
+            }
+        });
+    }
+</script>

@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class TaskDTO {
-
+public class ProjectDTO {
+    
     @JsonProperty("id")
     private Long id;
 
@@ -35,8 +35,8 @@ public class TaskDTO {
     @JsonProperty("client_id")
     private Long clientId;
 
-    @JsonProperty("project_id")
-    private Long projectId;
+    @JsonProperty("invoice_id")
+    private Long invoiceId;
 
     @JsonProperty("deadline")
     private LocalDateTime deadline;
@@ -49,7 +49,7 @@ public class TaskDTO {
 
     @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
+
     @JsonIgnore
     private String statusName;
-
 }
