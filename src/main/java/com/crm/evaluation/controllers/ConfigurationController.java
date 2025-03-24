@@ -40,7 +40,7 @@ public class ConfigurationController {
             return Mono.just("redirect:/");
         }
 
-        return configurationService.insertConfiguration(token, remiseGlobale)
+        return configurationService.insertConfiguration(token, remiseGlobale/100)
                 .map(response -> {
                     redirectAttributes.addFlashAttribute("message", "Remise globale ajoutée avec succès !");
                     return "redirect:/configurations";
