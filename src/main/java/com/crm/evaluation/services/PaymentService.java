@@ -80,18 +80,24 @@ public class PaymentService {
         @SuppressWarnings("deprecation")
         String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl + "/payments/update-2/" + paymentId)
                 .toUriString();
-
+    
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("amount", newAmount);
-
+    
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
+    
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
-
+    
         try {
-            ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Map.class);
-            return (String) response.getBody().get("error");
+            ResponseEntity<Map> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Map.class);
+            Map<String, String> response = (Map<String, String>) responseEntity.getBody();
+            
+            if (response != null && response.containsKey("error")) {
+                return response.get("error");
+            } else {
+                return "Mise à jour réussie";
+            }
         } catch (HttpClientErrorException e) {
             return extractErrorMessage(e.getResponseBodyAsString());
         } catch (HttpServerErrorException e) {
@@ -102,6 +108,7 @@ public class PaymentService {
             return "Erreur inconnue : " + e.getMessage();
         }
     }
+    
 
 
     private String extractErrorMessage(String json) {
