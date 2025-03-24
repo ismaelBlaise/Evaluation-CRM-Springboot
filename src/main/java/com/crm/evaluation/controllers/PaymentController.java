@@ -54,7 +54,7 @@ public class PaymentController {
         } catch (IllegalArgumentException e) {
             modelAndView.addObject("erreur", "Erreur: Montant invalide.");
         } catch (Exception e) {
-            modelAndView.addObject("erreur", "Une erreur est survenue lors de la mise à jour du paiement.");
+            modelAndView.addObject("erreur", e.getMessage());
         }
     
         return modelAndView;
