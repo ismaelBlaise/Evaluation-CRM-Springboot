@@ -54,7 +54,7 @@ public class PaymentController {
         } catch (IllegalArgumentException e) {
             modelAndView.addObject("erreur", "Erreur: Montant invalide.");
         } catch (Exception e) {
-            modelAndView.addObject("erreur", e.getMessage());
+            modelAndView.addObject("erreur","Le montant du paiement depasse le montant reste du facture.");
         }
     
         return modelAndView;
