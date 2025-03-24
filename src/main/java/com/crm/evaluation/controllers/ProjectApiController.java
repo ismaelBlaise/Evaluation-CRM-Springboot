@@ -17,6 +17,6 @@ public class ProjectApiController {
 
     @GetMapping("/chart")
     public Map<String, Integer> getProjectCountByStatus() throws Exception {
-        return dashboardService.getProjectCountByStatus();
+        return dashboardService.getProjectCountByStatus().getDataInteger();
     }
 }

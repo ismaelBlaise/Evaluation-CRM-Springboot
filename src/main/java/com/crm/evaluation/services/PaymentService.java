@@ -90,8 +90,8 @@ public class PaymentService {
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
 
         try {
-            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-            return response.getBody();
+            ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Map.class);
+            return (String) response.getBody().get("error");
         } catch (HttpClientErrorException e) {
             return extractErrorMessage(e.getResponseBodyAsString());
         } catch (HttpServerErrorException e) {

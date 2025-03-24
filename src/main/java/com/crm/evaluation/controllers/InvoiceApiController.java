@@ -19,11 +19,11 @@ public class InvoiceApiController {
 
     @GetMapping("/chart/{annee}/{mois}")
     public Map<String, Double> getInvoicePaymentSummary(@PathVariable(required = false) String annee, @PathVariable(required = false)   String mois) throws Exception {
-        return dashboardService.getInvoicePaymentSummary(annee, mois);
+        return dashboardService.getInvoicePaymentSummary(annee, mois).getDataDouble();
     }
 
     @GetMapping("/chart")
     public Map<String, Double> getInvoicePaymentSummary2() throws Exception {
-        return dashboardService.getInvoicePaymentSummary(null, null);
+        return dashboardService.getInvoicePaymentSummary(null, null).getDataDouble();
     }
 }

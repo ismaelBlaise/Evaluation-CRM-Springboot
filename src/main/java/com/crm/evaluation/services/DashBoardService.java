@@ -2,6 +2,8 @@ package com.crm.evaluation.services;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import com.crm.evaluation.dtos.MapDTO;
 import com.crm.evaluation.responses.DashboardResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +25,7 @@ public class DashboardService {
     public DashboardResponse getDashboardData() throws Exception {
 
         // Appel à l'API pour récupérer les projets par statut
-        Map<String, Integer> projectStatusCount = getProjectCountByStatus();
+        Map<String, Integer> projectStatusCount = getProjectCountByStatus().getDataInteger();
 
         // Extraction du nombre de projets pour chaque statut
         int nbProjects = projectStatusCount.getOrDefault("Open", 0);  // Exemple pour obtenir le nombre de projets "Open"
@@ -113,7 +115,7 @@ public class DashboardService {
 
 
     @SuppressWarnings({ "unchecked", "deprecation" })
-    public Map<String, Integer> getProjectCountByStatus() throws Exception {
+    public MapDTO getProjectCountByStatus() throws Exception {
         String url = apiBaseUrl + "/projects/chart"; 
         RestTemplate restTemplate = new RestTemplate();
         
@@ -131,8 +133,9 @@ public class DashboardService {
             
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, Integer> projectStatusMap = objectMapper.readValue(response.getBody(), Map.class);
-            
-            return projectStatusMap; 
+            MapDTO mapDTO=new MapDTO();
+            mapDTO.setDataInteger(projectStatusMap);
+            return mapDTO; 
         } catch (HttpClientErrorException e) {
             throw new Exception("Erreur lors de l'appel API pour le nombre de projets par statut.");
         } catch (Exception e) {
@@ -142,7 +145,7 @@ public class DashboardService {
 
 
     @SuppressWarnings({ "unchecked", "deprecation" })
-    public Map<String, Double> getInvoicePaymentSummary(String annee,String mois) throws Exception {
+    public MapDTO getInvoicePaymentSummary(String annee,String mois) throws Exception {
         String url = apiBaseUrl + "/invoices/chart"; 
         if(annee!=null){
             url+="/"+annee;
@@ -170,7 +173,9 @@ public class DashboardService {
              
             Map<String, Double> projectStatusMap = objectMapper.readValue(response.getBody(), new TypeReference<Map<String, Double>>() {});
             System.out.println(projectStatusMap.get("total_paid"));
-            return projectStatusMap; 
+            MapDTO mapDTO=new MapDTO();
+            mapDTO.setDataDouble(projectStatusMap);
+            return mapDTO; 
         } catch (HttpClientErrorException e) {
             throw new Exception("Erreur lors de l'appel API les factures paye et non paye.");
         } catch (Exception e) {
@@ -182,7 +187,7 @@ public class DashboardService {
 
 
     @SuppressWarnings({ "unchecked", "deprecation" })
-    public Map<String, Integer> getMonthlyRevenueChart() throws Exception {
+    public MapDTO getMonthlyRevenueChart() throws Exception {
          
         String url = apiBaseUrl + "/payments/chart"; 
         
@@ -202,8 +207,9 @@ public class DashboardService {
             
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, Integer> revenueData = objectMapper.readValue(response.getBody(), Map.class);
-            
-            return revenueData; 
+            MapDTO mapDTO=new MapDTO();
+            mapDTO.setDataInteger(revenueData);
+            return mapDTO; 
         } catch (HttpClientErrorException e) {
             throw new Exception("Erreur lors de l'appel API pour les revenus mensuels.");
         } catch (Exception e) {
