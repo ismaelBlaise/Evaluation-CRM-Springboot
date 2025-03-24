@@ -43,11 +43,11 @@ public class ConfigurationController {
         return configurationService.insertConfiguration(token, remiseGlobale)
                 .map(response -> {
                     redirectAttributes.addFlashAttribute("message", "Remise globale ajoutée avec succès !");
-                    return "redirect:/configuration";
+                    return "redirect:/configurations";
                 })
                 .onErrorResume(e -> {
                     redirectAttributes.addFlashAttribute("error", "Erreur lors de l'ajout de la remise.");
-                    return Mono.just("redirect:/configuration");
+                    return Mono.just("redirect:/configurations");
                 });
     }
 }
