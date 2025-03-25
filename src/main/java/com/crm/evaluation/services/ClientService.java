@@ -40,7 +40,7 @@ public class ClientService {
         
         HttpEntity<String> entity = new HttpEntity<>(headers);
         
-        // Effectuer la requête avec les en-têtes
+        
         ResponseEntity<ClientResponse> response = restTemplate.exchange(
                 url, HttpMethod.GET, entity, ClientResponse.class);
         

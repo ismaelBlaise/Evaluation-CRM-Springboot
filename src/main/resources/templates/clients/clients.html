@@ -74,6 +74,17 @@
         <a th:if="${clients.currentPage < clients.lastPage}" th:href="@{/clients(page=${clients.currentPage + 1})}" 
            class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Suivant</a>
     </div>
+
+
+    <div class="text-center">
+            
+        <a href="/dashboard">
+            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
+                Retour
+            </button>
+        </a>
+        
+    </div>
 </div>
 
 <script>
