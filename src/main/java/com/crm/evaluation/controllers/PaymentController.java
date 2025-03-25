@@ -37,7 +37,7 @@ public class PaymentController {
 
 
     @PostMapping("/update")
-    public ModelAndView updatePayment(@RequestParam Long id, @RequestParam double amount) {
+    public ModelAndView updatePayment(@RequestParam Long id, @RequestParam double amount ,@RequestParam double oldAmount) {
         ModelAndView modelAndView = new ModelAndView("template");
         modelAndView.addObject("page","payments/update");
         modelAndView.addObject("paymentId", id);
@@ -52,8 +52,10 @@ public class PaymentController {
                 modelAndView.addObject("erreur", update.get("error"));
             }
         } catch (IllegalArgumentException e) {
+            modelAndView.addObject("amount", oldAmount);
             modelAndView.addObject("erreur", "Erreur: Montant invalide.");
         } catch (Exception e) {
+            modelAndView.addObject("amount", oldAmount);
             modelAndView.addObject("erreur","Le montant du paiement depasse le montant reste du facture.");
         }
     
