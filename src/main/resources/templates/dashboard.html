@@ -10,6 +10,9 @@
 
         <!-- Client Card -->
         <div class="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center">
+            <div class="bg-primary-100 p-3 rounded-full mb-4">
+                <i class="bi bi-people-fill text-primary-600 text-xl"></i>
+            </div>
             <h2 class="text-lg font-semibold text-gray-800">Clients</h2>
             <p class="text-3xl font-bold text-indigo-600 mt-3" th:text="${nbClients}"></p>
             <a href="/clients" class="text-indigo-600 mt-2 flex items-center hover:text-indigo-800 transition-colors">
@@ -19,6 +22,9 @@
 
         <!-- Project Card -->
         <div class="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center">
+            <div class="bg-primary-100 p-3 rounded-full mb-4">
+                <i class="bi bi-briefcase-fill text-primary-600 text-xl"></i>
+            </div>
             <h2 class="text-lg font-semibold text-gray-800">Projects</h2>
             <p class="text-3xl font-bold text-indigo-600 mt-3" th:text="${nbProjects}"></p>
             <a href="/projects" class="text-indigo-600 mt-2 flex items-center hover:text-indigo-800 transition-colors">
@@ -28,6 +34,9 @@
 
         <!-- Task Card -->
         <div class="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center">
+            <div class="bg-primary-100 p-3 rounded-full mb-4">
+                <i class="bi bi-list-task text-primary-600 text-xl"></i>
+            </div>
             <h2 class="text-lg font-semibold text-gray-800">Tasks</h2>
             <p class="text-3xl font-bold text-indigo-600 mt-3" th:text="${nbTasks}"></p>
             <a href="/tasks" class="text-indigo-600 mt-2 flex items-center hover:text-indigo-800 transition-colors">
@@ -37,6 +46,9 @@
 
         <!-- Offer Card -->
         <div class="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center">
+            <div class="bg-primary-100 p-3 rounded-full mb-4">
+                <i class="bi bi-file-earmark-text-fill text-primary-600 text-xl"></i>
+            </div>
             <h2 class="text-lg font-semibold text-gray-800">Offers</h2>
             <p class="text-3xl font-bold text-indigo-600 mt-3" th:text="${nbOffers}"></p>
             <a href="/offers" class="text-indigo-600 mt-2 flex items-center hover:text-indigo-800 transition-colors">
@@ -46,6 +58,9 @@
 
         <!-- Invoice Card -->
         <div class="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center">
+            <div class="bg-primary-100 p-3 rounded-full mb-4">
+                <i class="bi bi-receipt text-primary-600 text-xl"></i>
+            </div>
             <h2 class="text-lg font-semibold text-gray-800">Invoices</h2>
             <p class="text-3xl font-bold text-indigo-600 mt-3" th:text="${nbInvoices}"></p>
             <a href="/invoices" class="text-indigo-600 mt-2 flex items-center hover:text-indigo-800 transition-colors">
@@ -54,6 +69,9 @@
         </div>
 
         <div class="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center">
+            <div class="bg-primary-100 p-3 rounded-full mb-4">
+                <i class="bi bi-credit-card-fill text-primary-600 text-xl"></i>
+            </div>
             <h2 class="text-lg font-semibold text-gray-800 ">Payments</h2>
             <p class="text-xl font-bold text-indigo-600 mt-3" th:text="${nbPayments}"> </p><p class="text-xl font-bold text-indigo-600 mt-3 amount-value" th:text="${sumPayments*100}"> </p>
             <a href="/payments" class="text-indigo-600 mt-2 flex items-center hover:text-indigo-800 transition-colors">
@@ -64,6 +82,9 @@
 
          
         <div class="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center">
+            <div class="bg-primary-100 p-3 rounded-full mb-4">
+                <i class="bi bi-collection-fill text-primary-600 text-xl"></i>
+            </div>
             <h2 class="text-lg font-semibold text-gray-800">Invoice Lines</h2>
             <p class="text-3xl font-bold text-indigo-600 mt-3" th:text="${nbInvoiceLines}"></p>
             <!-- <a href="/invoice-lines" class="text-indigo-600 mt-2 flex items-center hover:text-indigo-800 transition-colors">
